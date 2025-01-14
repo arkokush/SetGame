@@ -49,7 +49,7 @@ struct CardView: View{
             VStack{
                 ForEach(1...SetGameViewModel.getCardValue(card), id: \.self){_ in 
                     SetGameViewModel.getCardShape(card)
-                        .foregroundStyle(SetGameViewModel.getCardColor(card))
+                        .scaleEffect(0.5)
                 }
             }
             

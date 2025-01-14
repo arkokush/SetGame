@@ -15,6 +15,18 @@ import SwiftUI
          SetGame()
      }
      
+     struct Diamond: Shape {
+             func path(in rect: CGRect) -> Path {
+                 var p = Path()
+                 p.move(to: CGPoint(x: rect.midX, y: 0))
+                 p.addLine(to: CGPoint(x: 0, y: rect.midY))
+                 p.addLine(to: CGPoint(x: rect.midX, y: rect.maxY))
+                 p.addLine(to: CGPoint(x: rect.maxX, y: rect.midY))
+                 p.closeSubpath()
+                 return p
+             }
+         }
+     
      //MARK: -Intents
      static func getCardColor(_ card: SetGame.Card) -> Color {
          switch card.color {
@@ -26,16 +38,22 @@ import SwiftUI
      }
      static func getCardShape(_ card: SetGame.Card) -> some View {
          switch card.shape {
-         case SetGame.Card.Shape.squiggle: return Text("Squiggle")
-         case SetGame.Card.Shape.diamond: return Text("Diamond")
-         case SetGame.Card.Shape.oval: return Text("Oval")
+         case SetGame.Card.Shape.squiggle: return AnyShape(RoundedRectangle(cornerRadius: 20))
+                 .stroke(getCardColor(card),lineWidth: 3)
+                 .fill(getCardColor(card).opacity(getCardShading(card)))
+         case SetGame.Card.Shape.diamond: return AnyShape(Diamond())
+                 .stroke(getCardColor(card),lineWidth: 3)
+                 .fill(getCardColor(card).opacity(getCardShading(card)))
+         case SetGame.Card.Shape.oval: return AnyShape(Ellipse())
+                 .stroke(getCardColor(card),lineWidth: 3)
+                 .fill(getCardColor(card).opacity(getCardShading(card)))
          }
      }
-     static func getCardShading(_ card: SetGame.Card) -> some View {
+     static func getCardShading(_ card: SetGame.Card) ->  Double {
          switch card.shading {
-         case SetGame.Card.Shading.filled: return Text("Filled")
-         case SetGame.Card.Shading.open: return Text("Open")
-         case SetGame.Card.Shading.lined: return Text("Lined")
+         case SetGame.Card.Shading.filled:  return 1
+         case SetGame.Card.Shading.open: return 0
+         case SetGame.Card.Shading.lined: return 0.5
          }
      }
      static func getCardValue(_ card: SetGame.Card) -> Int {
