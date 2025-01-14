@@ -23,18 +23,32 @@ struct SetGame {
                 }
             }
         }
+        shuffle()
+        for value in 0...8{
+            deck[value].isOnScreen = true
+        }
     }
     
     
     
     
     //MARK: -Intents
+    mutating func shuffle(){
+        deck.shuffle()
+    }
     
+    mutating func addCards(){
+        for index in deck.filter({$0.isOnScreen}).count-1...deck.filter({$0.isOnScreen}).count+2{
+            deck[index].isOnScreen = true
+        }
+    }
     
     //MARK: -Structs
     struct Card: Equatable, Identifiable{
         
         var isMatched = false
+        var isSelected = false
+        var isOnScreen = false
         
         enum Shape: CaseIterable {
             case diamond, squiggle, oval

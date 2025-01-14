@@ -13,6 +13,7 @@ import SwiftUI
      
      private static func createSetGame() -> SetGame {
          SetGame()
+         
      }
      
      struct Diamond: Shape {
@@ -28,6 +29,12 @@ import SwiftUI
          }
      
      //MARK: -Intents
+     func shuffle(){
+         setGame.shuffle()
+     }
+     func addCards(){
+         setGame.addCards()
+     }
      static func getCardColor(_ card: SetGame.Card) -> Color {
          switch card.color {
             case "Red": return Color.red
