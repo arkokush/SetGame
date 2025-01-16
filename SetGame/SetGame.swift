@@ -24,7 +24,7 @@ struct SetGame {
             }
         }
      shuffle()
-        for value in 0...8{
+        for value in 0...11{
             deck[value].isOnScreen = true
         }
        
@@ -40,15 +40,18 @@ struct SetGame {
     }
     
     mutating func addCards(){
-        var cnt = 0
-        repeat{
-            let index = Int.random(in:deck.indices)
-                if !deck[index].isOnScreen{
-                deck[index].isOnScreen = true
-                cnt+=1
-            }
-            
-        } while cnt < 3
+        if deck.filter({$0.isOnScreen}).count<81{
+            var cnt = 0
+            repeat{
+                let index = Int.random(in:deck.indices)
+                    if !deck[index].isOnScreen{
+                    deck[index].isOnScreen = true
+                    cnt+=1
+                }
+                
+            } while cnt < 3
+        }
+        
     }
     
     mutating func choose(_ card:Card){   
