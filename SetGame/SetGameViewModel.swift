@@ -32,9 +32,16 @@ import SwiftUI
      func shuffle(){
          setGame.shuffle()
      }
+     
      func addCards(){
          setGame.addCards()
      }
+     
+     func choose(_ card: SetGame.Card){
+         setGame.choose(card)
+     }
+     
+     
      static func getCardColor(_ card: SetGame.Card) -> Color {
          switch card.color {
             case "Red": return Color.red
@@ -45,7 +52,7 @@ import SwiftUI
      }
      static func getCardShape(_ card: SetGame.Card) -> some View {
          switch card.shape {
-         case SetGame.Card.Shape.squiggle: return AnyShape(RoundedRectangle(cornerRadius: 20))
+         case SetGame.Card.Shape.rectangle: return AnyShape(Rectangle())
                  .stroke(getCardColor(card),lineWidth: 3)
                  .fill(getCardColor(card).opacity(getCardShading(card)))
          case SetGame.Card.Shape.diamond: return AnyShape(Diamond())

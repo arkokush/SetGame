@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		2396AEB72D380F11004DEDE9 /* AspectVGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2396AEB62D380F11004DEDE9 /* AspectVGrid.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		230056DE2D304C8A00A059B8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +31,7 @@
 		230056CD2D304C8800A059B8 /* SetGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SetGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		230056DD2D304C8A00A059B8 /* SetGameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SetGameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		230056E72D304C8A00A059B8 /* SetGameUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SetGameUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2396AEB62D380F11004DEDE9 /* AspectVGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectVGrid.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +80,7 @@
 		230056C42D304C8800A059B8 = {
 			isa = PBXGroup;
 			children = (
+				2396AEB62D380F11004DEDE9 /* AspectVGrid.swift */,
 				230056CF2D304C8800A059B8 /* SetGame */,
 				230056E02D304C8A00A059B8 /* SetGameTests */,
 				230056EA2D304C8A00A059B8 /* SetGameUITests */,
@@ -236,6 +242,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2396AEB72D380F11004DEDE9 /* AspectVGrid.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
