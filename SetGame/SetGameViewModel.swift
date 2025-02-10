@@ -41,6 +41,9 @@ import SwiftUI
          setGame.choose(card)
      }
      
+      func newGame(){
+         setGame = SetGameViewModel.createSetGame()
+     }
      
      static func getCardColor(_ card: SetGame.Card) -> Color {
          switch card.color {
@@ -55,12 +58,15 @@ import SwiftUI
          case SetGame.Card.Shape.rectangle: return AnyShape(Rectangle())
                  .stroke(getCardColor(card),lineWidth: 3)
                  .fill(getCardColor(card).opacity(getCardShading(card)))
+                 .aspectRatio(2/1,contentMode: .fit)
          case SetGame.Card.Shape.diamond: return AnyShape(Diamond())
                  .stroke(getCardColor(card),lineWidth: 3)
                  .fill(getCardColor(card).opacity(getCardShading(card)))
+                 .aspectRatio(2/1,contentMode: .fit)
          case SetGame.Card.Shape.oval: return AnyShape(Ellipse())
                  .stroke(getCardColor(card),lineWidth: 3)
                  .fill(getCardColor(card).opacity(getCardShading(card)))
+                 .aspectRatio(2/1,contentMode: .fit)
          }
      }
      static func getCardShading(_ card: SetGame.Card) ->  Double {

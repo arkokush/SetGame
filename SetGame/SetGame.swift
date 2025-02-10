@@ -10,6 +10,7 @@ import Foundation
 struct SetGame {
     private(set) var deck : [Card]
     
+    
     init() {
         deck = []
         do {
@@ -79,6 +80,7 @@ struct SetGame {
              deck[deck.firstIndex(where: {$0.id == selectedCards[2].id}) ?? 0].isMatched = true
              print("3 Cards Matched")
              unSelectAllCards()
+             addCards()
          }
 
     }
@@ -88,6 +90,7 @@ struct SetGame {
             deck[deck.firstIndex(where: {$0.id == card.id}) ?? 0].isSelected = false
         }
     }
+    
     func checkMatched(card1:Card,card2:Card,card3:Card) -> Bool{
          checkThree(card1.shape, card2.shape, card3.shape)
         && checkThree(card1.shading, card2.shading, card3.shading)

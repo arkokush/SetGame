@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		238209EC2D5679E5006719BE /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238209EB2D5679E5006719BE /* CardView.swift */; };
 		2396AEB72D380F11004DEDE9 /* AspectVGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2396AEB62D380F11004DEDE9 /* AspectVGrid.swift */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,7 @@
 		230056CD2D304C8800A059B8 /* SetGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SetGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		230056DD2D304C8A00A059B8 /* SetGameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SetGameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		230056E72D304C8A00A059B8 /* SetGameUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SetGameUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		238209EB2D5679E5006719BE /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		2396AEB62D380F11004DEDE9 /* AspectVGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectVGrid.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -80,6 +82,7 @@
 		230056C42D304C8800A059B8 = {
 			isa = PBXGroup;
 			children = (
+				238209EB2D5679E5006719BE /* CardView.swift */,
 				2396AEB62D380F11004DEDE9 /* AspectVGrid.swift */,
 				230056CF2D304C8800A059B8 /* SetGame */,
 				230056E02D304C8A00A059B8 /* SetGameTests */,
@@ -242,6 +245,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				238209EC2D5679E5006719BE /* CardView.swift in Sources */,
 				2396AEB72D380F11004DEDE9 /* AspectVGrid.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

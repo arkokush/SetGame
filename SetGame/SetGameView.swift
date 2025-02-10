@@ -11,69 +11,100 @@ import SwiftUI
 struct SetGameView: View {
     @ObservedObject var viewModel: SetGameViewModel
     let aspectRatio: CGFloat = 2/3
+    private let deckWidth:CGFloat = 50
+    private let delayInterval:TimeInterval = 0.15
+    private let dealDuration = 0.5
+    typealias Card = SetGame.Card
+    @State private var dealt = Set<Card.ID>()
+    @State private var discard = Set<Card.ID>()
+    @Namespace private var dealingNameSpace
+    
     var body: some View {
         VStack {
             cards
                 .animation(.default, value: viewModel.cards)
-            HStack{
-                Button("Shuffle"){
-                    viewModel.shuffle()
-                }
-                Spacer()
-                Button("3 More"){
-                    viewModel.addCards()
-                }
-            }
+            menuBar
         }
         .padding()
     }
-    var cards: some View{
-        AspectVGrid(viewModel.cards.filter{$0.isOnScreen},aspectRatio: aspectRatio) { card in
-            if(card.isOnScreen && !card.isMatched){
-                        CardView(card)
-                            .aspectRatio(aspectRatio,contentMode: .fit)
-                            .padding(4)
-                            .onTapGesture {
-                                viewModel.choose(card)
-                            }
-                    }
-                }
+    
+    private var menuBar: some View {
+        HStack{
+            Button("New Game"){
+                viewModel.newGame()
+            }
+            Spacer()
+            deck
+            Spacer()
+            Button("Draw 3"){
+                viewModel.addCards()
             }
         }
-        
+    }
     
     
-   
     
-    struct CardView: View{
-        let card: SetGame.Card
-        
-        init(_ card: SetGame.Card) {
-            self.card = card
-        }
-        var body: some View{
-            ZStack {
-                let base = RoundedRectangle(cornerRadius: 20)
-                
-                base
-                    .foregroundStyle(.white)
-                base
-                    .stroke((card.isSelected ? Color.orange : Color.black), lineWidth: 4)
-                VStack{
-                    ForEach(1...card.value, id: \.self){_ in
-                        SetGameViewModel.getCardShape(card)
-                            .scaleEffect(0.5)
+    
+    private var cards: some View{
+        AspectVGrid(viewModel.cards.filter{$0.isOnScreen && !$0.isMatched},aspectRatio: aspectRatio) { card in
+            if(isDealt(card)){
+                CardView(card)
+                    .aspectRatio(aspectRatio,contentMode: .fit)
+                    .padding(4)
+                    .onTapGesture {
+                        viewModel.choose(card)
                     }
-                }
-                
+                    .matchedGeometryEffect(id: card.id, in: dealingNameSpace)
+                    .transition(.asymmetric(insertion: .identity, removal: .identity))
             }
-            
-            
-            
-            
+        }
+        .onAppear{
+            deal()
+        }
+    }
+    
+    
+    private func isDealt(_ card: Card) -> Bool {
+        dealt.contains(card.id)
+    }
+    
+    private var undealtCards : [Card]{
+        viewModel.cards.filter{!isDealt($0)}
+    }
+    
+    
+    private var deck : some View {
+        ZStack{
+            ForEach(undealtCards) {card in
+                CardView(card)
+                    .matchedGeometryEffect(id: card.id, in: dealingNameSpace)
+                    .transition(.asymmetric(insertion: .identity, removal: .identity))
+            }
+        }
+        .frame(width: deckWidth, height: deckWidth/aspectRatio)
+        .onTapGesture(){
+            viewModel.addCards()
+            deal()
+        }
+        
         
     }
+    
+    private func deal(){
+        var delay: TimeInterval = 0
+        for card in viewModel.cards{
+            withAnimation(.bouncy(duration: dealDuration).delay(delay)){
+                if card.isOnScreen{
+                    _ = dealt.insert(card.id)
+                }
+            }
+            delay+=delayInterval
+        }
+    }
+    
 }
+    
+     
 #Preview {
     SetGameView(viewModel: SetGameViewModel())
 }
