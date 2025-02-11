@@ -53,7 +53,7 @@ import SwiftUI
             default : return Color.black
          }
      }
-     static func getCardShape(_ card: SetGame.Card) -> some View {
+     static func getCardContent(_ card: SetGame.Card) -> some View {
          switch card.shape {
          case SetGame.Card.Shape.rectangle: return AnyShape(Rectangle())
                  .stroke(getCardColor(card),lineWidth: 3)

@@ -9,6 +9,7 @@ import Foundation
 
 struct SetGame {
     private(set) var deck : [Card]
+    private(set) var inPlay = [Card]()
     
     
     init() {
@@ -69,7 +70,7 @@ struct SetGame {
         }
     }
     
-    mutating func matchCards(){
+    private mutating func matchCards(){
         var selectedCards : [Card] = []
          for card in deck.filter({$0.isSelected}){
              selectedCards.append(card)
@@ -91,7 +92,7 @@ struct SetGame {
         }
     }
     
-    func checkMatched(card1:Card,card2:Card,card3:Card) -> Bool{
+    private func checkMatched(card1:Card,card2:Card,card3:Card) -> Bool{
          checkThree(card1.shape, card2.shape, card3.shape)
         && checkThree(card1.shading, card2.shading, card3.shading)
         && checkThree(card1.color, card2.color, card3.color)

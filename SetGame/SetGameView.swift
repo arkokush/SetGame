@@ -31,25 +31,27 @@ struct SetGameView: View {
         HStack{
             discardPile
             Spacer()
-            Button("New Game"){
-                viewModel.newGame()
-                dealt.removeAll()
-                deal()
-                
-            }
+            newGame
             Spacer()
             deck
             
         }
     }
     
-    
+    private var newGame: some View {
+        Button("New Game"){
+            viewModel.newGame()
+            dealt.removeAll()
+            deal()
+            
+        }
+    }
     
     
     private var cards: some View{
         AspectVGrid(viewModel.cards.filter{$0.isOnScreen && !$0.isMatched},aspectRatio: aspectRatio) { card in
             if(isDealt(card)){
-                CardView(card)
+                CardView(card, cards: viewModel.cards)
                     .aspectRatio(aspectRatio,contentMode: .fit)
                     .padding(4)
                     .onTapGesture {
@@ -57,6 +59,7 @@ struct SetGameView: View {
                     }
                     .matchedGeometryEffect(id: card.id, in: dealingNameSpace)
                     .transition(.asymmetric(insertion: .identity, removal: .identity))
+                
             }
         }
         .onAppear{
@@ -78,42 +81,45 @@ struct SetGameView: View {
     
     
     private var discardPile: some View {
-        ZStack{
-            RoundedRectangle(cornerRadius: 12)
-                .stroke(Color.black, lineWidth: 4)
+        VStack{
+            Text("Discard")
+            ZStack{
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.black, lineWidth: 4)
+                    .frame(width: deckWidth, height: deckWidth/aspectRatio)
+                ForEach(discardedCards) {card in
+                    CardView(card)
+                        .matchedGeometryEffect(id: card.id, in: dealingNameSpace)
+                        .transition(.asymmetric(insertion: .identity, removal: .identity))
+                }
                 .frame(width: deckWidth, height: deckWidth/aspectRatio)
-            ForEach(discardedCards) {card in
-                CardView(card)
-                    .matchedGeometryEffect(id: card.id, in: dealingNameSpace)
-                    .transition(.asymmetric(insertion: .identity, removal: .identity))
             }
-            .frame(width: deckWidth, height: deckWidth/aspectRatio)
         }
     }
     
     private var deck : some View {
-        ZStack{
-            ForEach(undealtCards) {card in
-                CardView(card)
-                    .matchedGeometryEffect(id: card.id, in: dealingNameSpace)
-                    .transition(.asymmetric(insertion: .identity, removal: .identity))
+        VStack{
+            Text("Deck")
+            ZStack{
+                ForEach(undealtCards) {card in
+                    CardView(card)
+                        .matchedGeometryEffect(id: card.id, in: dealingNameSpace)
+                        .transition(.asymmetric(insertion: .identity, removal: .identity))
+                }
+                RoundedRectangle(cornerRadius: 12)
             }
-            RoundedRectangle(cornerRadius: 12)
+            .frame(width: deckWidth, height: deckWidth/aspectRatio)
+            .onTapGesture(){
+                viewModel.addCards()
+                deal()
+            }
         }
-        .frame(width: deckWidth, height: deckWidth/aspectRatio)
-        .onTapGesture(){
-            viewModel.addCards()
-            deal()
-        }
-        
-        
-        
     }
     
     private func deal(){
         var delay: TimeInterval = 0
         for card in viewModel.cards{
-            withAnimation(.bouncy(duration: dealDuration).delay(delay)){
+            withAnimation(.easeInOut(duration: dealDuration).delay(delay)){
                 print("Delay: \(delay)")
                 if card.isOnScreen && !isDealt(card){
                     _ = dealt.insert(card.id)
