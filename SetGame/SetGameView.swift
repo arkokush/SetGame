@@ -16,7 +16,6 @@ struct SetGameView: View {
     private let dealDuration = 0.5
     typealias Card = SetGame.Card
     @State private var dealt = Set<Card.ID>()
-    @State private var discard = Set<Card.ID>()
     @Namespace private var dealingNameSpace
     
     var body: some View {
@@ -30,15 +29,17 @@ struct SetGameView: View {
     
     private var menuBar: some View {
         HStack{
+            discardPile
+            Spacer()
             Button("New Game"){
                 viewModel.newGame()
+                dealt.removeAll()
+                deal()
+                
             }
             Spacer()
             deck
-            Spacer()
-            Button("Draw 3"){
-                viewModel.addCards()
-            }
+            
         }
     }
     
@@ -71,7 +72,24 @@ struct SetGameView: View {
     private var undealtCards : [Card]{
         viewModel.cards.filter{!isDealt($0)}
     }
+    private var discardedCards : [Card]{
+        viewModel.cards.filter{$0.isMatched}
+    }
     
+    
+    private var discardPile: some View {
+        ZStack{
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.black, lineWidth: 4)
+                .frame(width: deckWidth, height: deckWidth/aspectRatio)
+            ForEach(discardedCards) {card in
+                CardView(card)
+                    .matchedGeometryEffect(id: card.id, in: dealingNameSpace)
+                    .transition(.asymmetric(insertion: .identity, removal: .identity))
+            }
+            .frame(width: deckWidth, height: deckWidth/aspectRatio)
+        }
+    }
     
     private var deck : some View {
         ZStack{
@@ -80,6 +98,7 @@ struct SetGameView: View {
                     .matchedGeometryEffect(id: card.id, in: dealingNameSpace)
                     .transition(.asymmetric(insertion: .identity, removal: .identity))
             }
+            RoundedRectangle(cornerRadius: 12)
         }
         .frame(width: deckWidth, height: deckWidth/aspectRatio)
         .onTapGesture(){
@@ -88,17 +107,20 @@ struct SetGameView: View {
         }
         
         
+        
     }
     
     private func deal(){
         var delay: TimeInterval = 0
         for card in viewModel.cards{
             withAnimation(.bouncy(duration: dealDuration).delay(delay)){
-                if card.isOnScreen{
+                print("Delay: \(delay)")
+                if card.isOnScreen && !isDealt(card){
                     _ = dealt.insert(card.id)
+                    delay+=delayInterval
                 }
             }
-            delay+=delayInterval
+            
         }
     }
     
